@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Danny Johansson's ToDo List in Vue</title>
+  <link rel="stylesheet" type="text/css" href="node_modules/todomvc-app-css/index.css">
+</head>
+
+<body>
+  <h1>Danny Johansson's ToDo List in Vue</h1>
+  <section class="todoapp">
+    <header class="header">
+      <h1>ToDos</h1>
+        <input class="new-todo" placeholder="What needs to be done?"
+               v-on:keyup.enter="createTodo"
+               autofocus>
+    </header>
+
+    <section class="main" v-if="todos.length">
+        <input id="toggle-all" class="toggle-all" type="checkbox" @click="selectAll(this)">
+        <label for="toggle-all">Mark all as complete</label>
+      <ul class="todo-list">
+        <li class="completed">
+          <input class="edit" value="Create a TodoMVC template">
+        </li>
+          <li v-for="todo in todos" :class="{ completed: todo.isDone, editing: todo === editing }">
+              <div class="view">
+                  <input class="toggle" type="checkbox" v-model="todo.isDone">
+                  <label @dblclick="startEditing(todo)">{{todo.text}}</label>
+                  <button class="destroy" @click="destroyTodo(todo)"></button>
+              </div>
+              <input class="edit"
+                     @keyup.esc="cancelEditing"
+                     @keyup.enter="finishEditing"
+                     @blur="finishEditing"
+                     :value="todo.text">
+          </li>
+      </ul>
+    </section>
+
+    <footer class="footer" v-if="todos.length">
+      <span class="todo-count">
+        <strong>{{ activeTodos.length }}</strong> item(s) left to complete</span>
+        <button class="clear-completed" @click="invertSelection"  >Invert Selection</button>
+        <button class="clear-completed" @click="clearCompleted" v-show="completedTodos.length" style="margin-right:1em;">Clear completed</button>
+    </footer>
+  </section>
+
+  <footer class="info">
+    <p>Double-click to edit a todo</p>
+  </footer>
+  
+  <!-- Scripts here ↓ -->
+  <script src="node_modules/vue/dist/vue.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
